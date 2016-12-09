@@ -1,3 +1,28 @@
+commit 93f88902df01a7c5bd2974e42e0cca0f6d175678
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 9 20:18:20 2016 +0100
+
+    qubes-whonix add dependency on qubesdb-vm
+    
+    https://github.com/QubesOS/qubes-issues/issues/2497
+
+commit 5d3a030cee8686404fe6ecf0fdf5f5a42b525f6e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 9 20:14:59 2016 +0100
+
+    postinst: Do not break in case qubesdb-vm is also upgraded and not running.
+    
+    https://github.com/QubesOS/qubes-issues/issues/2497
+    
+    Conflicts:
+    	debian/qubes-whonix.postinst
+
+commit 23850a28e5947f81957a249bbeab1fdf3794cbed
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Aug 1 01:31:49 2016 +0000
+
+    bumped changelog version
+
 commit bbfe3682c718b4fd38907a9165972f8c773b5748
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Aug 1 01:28:10 2016 +0000
