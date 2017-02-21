@@ -4,18 +4,33 @@
 
 [Unit]
 Description=sets up Qubes-Whonix-Gateway external and internal network interface
+Documentation=https://github.com/Whonix/qubes-whonix
 ## Does nothing on Whonix-Workstation.
 
-Before=network.target qubes-update-check.service qubes-update-check.timer
+DefaultDependencies=no
+
+## Fail Closed Mechanism.
+## When the Whonix firewall systemd service failed, do not bring up the
+## network.
+After=whonix-firewall.service
+Requires=whonix-firewall.service
 
 ## There is no iptables.service as of Debian jessie.
-After=iptables.service
+#After=iptables.service
+
+Before=network.target
+Wants=network.target
+
+After=sysinit.target
+After=network-pre.target
+
+Before=shutdown.target
+Conflicts=shutdown.target
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/usr/lib/qubes-whonix/init/network-proxy-setup
-StandardOutput=syslog
 
 [Install]
 WantedBy=multi-user.target
@@ -27,3 +42,6 @@ WantedBy=multi-user.target
 ## (echo "*nat"; echo "$RULE1"; echo "$RULE2"; echo COMMIT) | iptables-restore -n
 ## Which could interfere with Whonix firewall rules.
 Alias=qubes-network.service
+
+## Prevent systemd ordering cycle.
+Alias=networking.service

@@ -1,3 +1,111 @@
+qubes-whonix (1:6.5-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Fri, 17 Feb 2017 14:05:29 +0000
+
+qubes-whonix (1:6.4-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Mon, 06 Feb 2017 02:08:05 +0000
+
+qubes-whonix (1:6.3-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Fri, 27 Jan 2017 12:15:48 +0000
+
+qubes-whonix (1:6.2-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Fri, 27 Jan 2017 12:13:57 +0000
+
+qubes-whonix (1:6.1-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Fri, 27 Jan 2017 12:10:54 +0000
+
+qubes-whonix (1:6.0-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Sun, 15 Jan 2017 15:34:30 +0000
+
+qubes-whonix (1:5.9-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Thu, 12 Jan 2017 02:56:13 +0000
+
+qubes-whonix (1:5.8-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Sat, 10 Dec 2016 02:25:03 +0000
+
+qubes-whonix (1:5.7-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Mon, 01 Aug 2016 01:31:06 +0000
+
+qubes-whonix (1:5.6-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Sun, 31 Jul 2016 20:04:56 +0000
+
+qubes-whonix (1:5.5-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Mon, 25 Jul 2016 22:04:15 +0200
+
+qubes-whonix (1:5.4-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Fri, 22 Jul 2016 19:48:48 +0200
+
+qubes-whonix (1:5.3-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Thu, 30 Jun 2016 21:58:33 +0200
+
+qubes-whonix (1:5.2-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Thu, 28 Apr 2016 00:27:08 +0000
+
+qubes-whonix (1:5.1-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Wed, 27 Apr 2016 18:59:29 +0000
+
+qubes-whonix (1:5.0-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Mon, 25 Apr 2016 23:27:55 +0000
+
+qubes-whonix (1:4.9-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Tue, 19 Apr 2016 19:44:41 +0000
+
+qubes-whonix (1:4.8-1) jessie; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Thu, 07 Apr 2016 22:54:40 +0000
+
 qubes-whonix (1:4.7-1) jessie; urgency=medium
 
   * New upstream version (local package).

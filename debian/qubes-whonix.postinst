@@ -34,7 +34,6 @@ case "${1}" in
         # make sure user is added to debian-tor group
         groupadd --force debian-tor
         usermod -a --groups debian-tor user
-
         ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
@@ -46,26 +45,28 @@ case "${1}" in
             case "${trigger}" in
 
                 # Replace IP addresses
-                /etc/cpfpy.d/40_qubes.conf | \
+                /usr/share/whonix-gw-network-conf/network_internal_ip.txt | \
                 /etc/resolv.conf.anondist | \
                 /etc/rinetd.conf.anondist | \
                 /etc/tor/torrc | \
                 /etc/tor/torrc.examples | \
                 /home/user/.torchat/torchat.ini | \
                 /home/user/.xchat2/xchat.conf | \
+                /home/user/.config/hexchat/hexchat.conf | \
                 /usr/lib/leaktest-workstation/simple_ping.py | \
                 /usr/share/anon-kde-streamiso/share/config/kioslaverc | \
                 /usr/share/anon-torchat/.torchat/torchat.ini | \
-                /usr/share/tor/tor-service-defaults-torrc.anondist | \
-                /usr/share/xchat-improved-privacy/.xchat2/xchat.conf)
-                    /usr/lib/qubes-whonix/replace-ips
+                /usr/share/tor/tor-service-defaults-torrc.anondist)
+                    ## Do not break in case qubesdb-vm is also upgraded and not running.
+                    ## https://github.com/QubesOS/qubes-issues/issues/2497
+                    /usr/lib/qubes-whonix/replace-ips || true
                     ;;
 
                 # Restart firewall
                 /usr/bin/whonix_firewall | \
                 /usr/share/tor/tor-service-defaults-torrc.anondist)
-                    /usr/lib/qubes-whonix/init/qubes-whonix-sysinit
-                    /usr/lib/qubes-whonix/init/enable-firewall
+                    /usr/lib/qubes-whonix/init/qubes-whonix-sysinit || true
+                    /usr/lib/anon-shared-helper-scripts/enable-firewall || true
                     ;;
 
                 *)

@@ -43,29 +43,21 @@ WHONIX_IP_GATEWAY = '/var/cache/qubes-whonix/whonix-ip-gateway'
 WHONIX_IP_LOCAL = '/var/cache/qubes-whonix/whonix-ip-local'
 IP_ADDRESS = re.compile(r'(?:[0-9]{1,3}\.){3}[0-9]{1,3}')
 
-# Do not modify any of the following files:
-#
-# They do not need to be replaced since they already have an additional
-# configuration file that overrides it.
-#
-#   /etc/cpfpy.d/30_controlportfilt_default.conf
-#   /etc/sdwdate.d/31_anon_dist_stream_isolation_plugin.conf
-
 # This is a list of all Whonix files that contain IP addresses that will
 # be searched and replaces with the current assigned IP address
 FILES=[
-    '/etc/cpfpy.d/40_qubes.conf',
+    '/usr/share/whonix-gw-network-conf/network_internal_ip.txt',
     '/etc/resolv.conf.anondist',
     '/etc/rinetd.conf.anondist',
     '/etc/tor/torrc',
     '/etc/tor/torrc.examples',
     '/home/user/.torchat/torchat.ini',
     '/home/user/.xchat2/xchat.conf',
+    '/home/user/.config/hexchat/hexchat.conf',
     '/usr/lib/leaktest-workstation/simple_ping.py',
     '/usr/share/anon-kde-streamiso/share/config/kioslaverc',
     '/usr/share/anon-torchat/.torchat/torchat.ini',
     '/usr/share/tor/tor-service-defaults-torrc.anondist',
-    '/usr/share/xchat-improved-privacy/.xchat2/xchat.conf',
 ]
 
 
@@ -186,12 +178,12 @@ def maybe_reload_tor():
         except (IOError):
             return
 
-    if re.search(r'^DisableNetwork 0$', text,  re.MULTILINE):
+    if re.search(r'^DisableNetwork 0$', text, re.MULTILINE):
         try:
-            if subprocess.check_output(['systemctl', 'is-active', 'tor']):
+            if subprocess.check_output(['systemctl', 'is-active', 'tor@default']):
                 # Restarting instead of reloading due to upstream Tor bug
                 # https://trac.torproject.org/projects/tor/ticket/16161
-                subprocess.call(['systemctl', 'restart', 'tor'])
+                subprocess.call(['systemctl', 'restart', 'tor@default'])
         except (subprocess.CalledProcessError):
             pass
 
@@ -214,7 +206,7 @@ def main(args):
 
         if whonix_mode() == 'workstation' and last_ip_local:
             try:
-	        ## FIXME: 'qubesdb-read /qubes-ip' could fail if NetVM is set to 'none'.
+                ## FIXME: 'qubesdb-read /qubes-ip' could fail if NetVM is set to 'none'.
                 current_ip_local = subprocess.check_output(['qubesdb-read', '/qubes-ip']).rstrip()
                 ## FIXME: 'qubesdb-read /qubes-gateway' could fail if NetVM is set to 'none'.
                 current_ip_gateway = subprocess.check_output(['qubesdb-read', '/qubes-gateway']).rstrip()

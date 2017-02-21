@@ -26,28 +26,28 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Display alert that firewall was unable to be enabled.
-if [ -e /var/run/qubes-service/whonix-firewall-failed ]; then
-    /usr/lib/qubes-whonix/alert firewall-failed /usr/lib/qubes-whonix/messages.yaml
-fi
-
 qubes_vm_type="$(qubesdb-read /qubes-vm-type)"
 
 # Template
 if [ "$qubes_vm_type" = "TemplateVM" ]; then
 
-    # Display warning that TemplateVM is not connected to a Tor update proxy.
+   timeout_seconds=120
+
+   for (( i=1 ; i<=$timeout_seconds ; i++)); do
+      if [ -e '/var/run/qubes-service/whonix-secure-proxy' ]; then
+         break
+      fi
+      sleep 1 &
+      wait "$!"
+   done
+
     if [ ! -e '/var/run/qubes-service/whonix-secure-proxy' ]; then
+         # Display warning that TemplateVM is not connected to a Tor update proxy.
         /usr/lib/qubes-whonix/alert update /usr/lib/qubes-whonix/messages.yaml
     fi
 
 # Gateway
 elif [ -e /usr/share/anon-gw-base-files/gateway ]; then
-
-    # If Tor is disabled, start whonix-setup-wizard in quick mode.
-    if grep "^#DisableNetwork 0$" /etc/tor/torrc; then
-        kdesudo whonix-setup-wizard quick
-    fi
 
     # Display alert that 'whonix-tor-disable' service flag is set and it will need to
     # to manually unset if user wants to be able to boot with Tor enabled.
@@ -56,17 +56,30 @@ elif [ -e /usr/share/anon-gw-base-files/gateway ]; then
         exit 0
     fi
 
-    ## When whonixcheck is automatically started at boot, while Tor is disabled
-    ## in /etc/tor/torrc, whonixcheck exits silently.
-    ## (whonixcheck does this because it is assumed, that in these cases Whonix
-    ## Setup starts.) (Most likely happens at first boot.)
-    ## If Tor has been enabled, restart whonixcheck daemon so whonixcheck will
-    ## check Tor's bootstrap status among other things.
-    if ! grep "^#DisableNetwork 0$" /etc/tor/torrc ; then
-        ## Check if whonixcheck daemon is even running before attempting to
-        ## restart it. This aids systems where whonixcheck is not installed.
-        if sudo service whonixcheck status ; then
-            sudo service whonixcheck restart || true
+    ## Check if Tor is disabled.
+    if grep "^#DisableNetwork 0$" /etc/tor/torrc; then
+        ## Tor is disabled, therefore start whonix-setup-wizard in quick mode.
+        kdesudo whonix-setup-wizard quick
+
+        ## Check if Tor is still disabled.
+        if grep "^#DisableNetwork 0$" /etc/tor/torrc ; then
+           true "Tor is still disabled, therefore take no action."
+        else
+           ## Tor is enabled now, most likely the user enabled it using whonix-setup-wizard.
+
+           ## When whonixcheck is automatically started at boot, while Tor is disabled
+           ## in /etc/tor/torrc, whonixcheck exits silently.
+           ## (whonixcheck does this because it is assumed, that in these cases Whonix
+           ## Setup starts.) (Most likely happens at first boot.)
+           ## If Tor has been enabled, restart whonixcheck daemon so whonixcheck will
+           ## check Tor's bootstrap status among other things.
+
+           ## Check if whonixcheck daemon is even running before attempting to
+           ## restart it. This aids systems where whonixcheck is not installed
+           ## or disabled by the user.
+           if sudo --non-interactive service whonixcheck status ; then
+               sudo --non-interactive service whonixcheck restart || true
+           fi
         fi
     fi
 

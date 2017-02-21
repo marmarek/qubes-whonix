@@ -1,8 +1,8 @@
 #!/bin/bash -e
 # vim: set ts=4 sw=4 sts=4 et :
 #
-# utility_functions.sh - Various utility functions or shared code used by
-#                        the 'qubes-whonix' package.
+# enable-firewall - Called by systemd to setup a proper firewall for Whonix
+#                   gateway, workstation or template
 #
 # This file is part of Qubes+Whonix.
 # Copyright (C) 2014 - 2015 Jason Mehring <nrgaway@gmail.com>
@@ -22,12 +22,28 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# 'apt-get' proxy server
-PROXY_SERVER='http://10.137.255.254:8082/'
+set -x
 
-# A magic line in the error pages tinyproxy (from qubes-updates-proxy) and
-# squid (qubes-updates-cache) send on Whonix when something connects to their
-# proxy port as if it was a web server. Client VMs can (and *Whonix* client VMs
-# *do*) check for the presence of this line, telling them we'll be torifying
-# their package downloads.
-PROXY_META='<meta name="application-name" content="tor proxy"/>'
+qubes_vm_type="$(qubesdb-read /qubes-vm-type)"
+
+if [ ! "$qubes_vm_type" = "TemplateVM" ]; then
+   exit 0
+fi
+
+if [ -e /var/run/qubes-service/whonix-secure-proxy ]; then
+   exit 0
+fi
+
+source /usr/lib/qubes-whonix/utility_functions.sh
+
+## Since curl does not timeout, handling timeout is left to the systemd unit.
+while true; do
+   ## Check if a secure Tor update server is available
+   if curl_output="$(UWT_DEV_PASSTHROUGH="1" curl --silent "${PROXY_SERVER}")" ; then
+      if echo "$curl_output" | grep -q "${PROXY_META}" ; then
+          touch /var/run/qubes-service/whonix-secure-proxy
+      fi
+      break
+   fi
+   sleep 1
+done
