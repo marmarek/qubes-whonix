@@ -1,0 +1,12 @@
+## This file is part of Whonix.
+## Copyright (C) 2017 - 2017 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+## Using this until Debian feature request
+## dh-systemd: Please support systemd user services
+## https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=764678
+## gets implemented.
+##
+## 'fix /etc/xdg/autostart vs systemd race condition'
+## https://phabricator.whonix.org/T424
+/usr/lib/systemd/user/qubes-whonixsetup.service /usr/lib/systemd/user/default.target.wants/qubes-whonixsetup.service
